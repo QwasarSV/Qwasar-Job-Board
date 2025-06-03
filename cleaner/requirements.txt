@@ -1,0 +1,29 @@
+# Core tools
+pandas==1.5.3
+numpy==1.24.4
+openpyxl==3.1.2  # For reading Excel files
+
+# NLP tools
+spacy==3.7.2
+nltk==3.8.1
+
+# Fuzzy matching
+fuzzywuzzy==0.18.0
+python-Levenshtein==0.12.2  # Improves fuzzywuzzy performance
+
+# Regex support (built-in with Python, no extra install)
+
+# Database & ORM
+SQLAlchemy==2.0.29
+psycopg2-binary==2.9.9  # PostgreSQL connector
+alembic==1.13.1
+
+# Logging & monitoring
+loguru==0.7.2
+
+# Jupyter support
+jupyterlab==4.1.5
+ipykernel==6.29.4
+
+# Testing tools (optional but recommended)
+pytest==8.1.1
