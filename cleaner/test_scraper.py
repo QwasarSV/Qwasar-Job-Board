@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# coding: utf-8
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
