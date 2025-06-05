@@ -1,0 +1,70 @@
+{
+    // Jupyter Configuration
+    "jupyter.interactiveWindow.textEditor.executeSelection": true,
+    "jupyter.askForKernelRestart": false,
+    "jupyter.alwaysTrustNotebooks": true,
+    "jupyter.enableCellCodeLens": true,
+    "jupyter.disableJupyterAutoStart": false,
+    "jupyter.jupyterServerType": "local",
+    "jupyter.allowUnauthorizedRemoteConnection": false,
+    "jupyter.enableExtendedKernelCompletions": true,
+    
+    // Python Interpreter Configuration - Prioritize job-board environment
+    "python.defaultInterpreterPath": "/Users/johnjepsen/code/miniconda3/envs/job-board/bin/python",
+    "python.condaPath": "/Users/johnjepsen/code/miniconda3/bin/conda",
+    
+    // Kernel Configuration - Multiple fallback options
+    "jupyter.kernels.filter": [],
+    "jupyter.kernels.trusted": [
+        "conda-job-board",
+        "conda-base", 
+        "python3",
+        "/Users/johnjepsen/code/miniconda3/envs/job-board/bin/python",
+        "/Users/johnjepsen/code/miniconda3/bin/python",
+        "/usr/local/bin/python3",
+        "/opt/homebrew/bin/python3"
+    ],
+    "jupyter.preferredKernelId": "conda-job-board",
+    
+    // Notebook Configuration
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+    "notebook.output.textLineLimit": 30,
+    "notebook.formatOnCellExecution": false,
+    "notebook.formatOnSave.enabled": false,
+    "notebook.trustedWorkspaces": [
+        "/Users/johnjepsen/code/Desktop/Qwasar-Job-Board"
+    ],
+    
+    // Python Environment Detection
+    "python.terminal.activateEnvironment": true,
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.autoComplete.extraPaths": [],
+    "python.envFile": "${workspaceFolder}/.env",
+    
+    // Jupyter Server Configuration
+    "jupyter.debugJustMyCode": true,
+    "jupyter.showVariableViewWhenDebugging": true,
+    "jupyter.runStartupCommands": [
+        "%load_ext autoreload",
+        "%autoreload 2"
+    ],
+    "jupyter.variableQueries": [],
+    "jupyter.enableScrollingForCellOutputs": true,
+    
+    // Error Handling & Service Worker Fix
+    "jupyter.sendSelectionToInteractiveWindow": false,
+    "jupyter.magicCommandsAsComments": true,
+    "jupyter.experimental.debugging": false,
+    "jupyter.enableWebviewHtmlOutput": false,
+    "workbench.webview.experimental.useIframes": false,
+    
+    // Additional robustness settings
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.typeCheckingMode": "basic",
+    "files.associations": {
+        "*.ipynb": "jupyter-notebook"
+    }
+}
