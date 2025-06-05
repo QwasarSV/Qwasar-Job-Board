@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+First, run the development server:  
 *Pease note* to run next js app make sure you are in the `qwasar-jobboard` in `frontend` folder<br>
 
 ```bash
