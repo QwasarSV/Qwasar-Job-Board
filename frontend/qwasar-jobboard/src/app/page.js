@@ -1,28 +1,26 @@
 
-export default async function JobList() {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const res = await fetch(apiUrl);
-  const jobs = await res.json();
+/* will call navBar and Searchbar when code inside files*/
 
+// import NavBar from './components/navbar';
+// import SearchBar from './components/searchbar';
+import JobListing from './components/joblisting';
+
+
+// homepage function call for components
+export default function HomePage(){
   return (
-    <div>
-      {jobs.map((job) => (
-        <div key={job.id} className="border rounded-md p-4 my-2 shadow">
-          <h3 className="text-lg font-semibold">{job.title}</h3>
-          <p>
-            {job.description}
-            </p>
-          <p>
-            <strong>Location:</strong> {job.location}
-          </p>
-          <p>
-            <strong>Salary:</strong> {job.salary}
-          </p>
-          <p>
-            <strong>URL:</strong>{' '} <a href={job.url} target="blank">link</a>
-          </p>
-        </div>
-      ))}
-    </div>
+    <>
+    <div className='joblisting_wrapper'>
+      <JobListing/>
+    </div></>
   );
 }
+/*
+USE WHEN HAVE NAVBAR AND SEARCHBAR 
+<div className='navbar_wrapper'>
+      <NavBar />
+    </div>
+    <div className='searchbar_wrapper'>
+      <SearchBar/>
+    </div>
+*/
