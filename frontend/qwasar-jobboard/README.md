@@ -1,8 +1,21 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+
+## Getting Started  
+1. create an .env folder in the root of the frontend project folder
+```
+example .env 
+
+NEXT_PUBLIC_API_URL=put_local_host_api_url_here
+```
+
+First, run the development server:  
+*Pease note* to run next js app make sure you are in the `qwasar-jobboard` in `frontend` folder<br>
+=======
 ## Getting Started
 
 First, run the development server:
+
 
 ```bash
 npm run dev
