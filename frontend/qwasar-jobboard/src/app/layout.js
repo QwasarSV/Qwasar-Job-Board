@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Dev Groups Jobhouse",
+  title: "Dev Groups Job House",
   description: "Find Your Dream Job",
 };
 
