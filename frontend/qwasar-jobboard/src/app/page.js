@@ -1,4 +1,5 @@
 
+
 /* will call navBar and Searchbar when code inside files*/
 
 // import NavBar from './components/navbar';
