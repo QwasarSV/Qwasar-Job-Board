@@ -1,19 +1,23 @@
 
-
-/* will call navBar and Searchbar when code inside files*/
+'use client';
 
 // import NavBar from './components/navbar';
-// import SearchBar from './components/searchbar';
+import SearchBar from './components/searchbar';
 import JobListing from './components/joblisting';
-
+import { useState } from 'react';
 
 // homepage function call for components
 export default function HomePage(){
+  const [searchInput, setSearchInput] = useState('')
   return (
     <>
     <div className='joblisting_wrapper'>
-      <JobListing/>
-    </div></>
+      <JobListing filter={searchInput}/>
+    </div>
+    <div className='searchBar_wrapper'>
+      <SearchBar setSearchInput={setSearchInput}/>
+    </div>
+    </>
   );
 }
 /*
