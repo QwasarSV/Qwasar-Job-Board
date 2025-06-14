@@ -1,5 +1,19 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Prerequisite/How to Run Dev Server
+1. npm install - to make sure all files are installed/up to date
+2. npm run dev - to run developement server in project_root/frontend/qwasar-jobboard
+   Example of expected output to verify it works:
+   
+    > qwasar-jobboard@0.1.0 dev
+    > next dev
+
+    ▲ Next.js 15.3.3
+    - Local:        http://localhost:3000
+    - Network:      http://123.456.78.910:3000
+
+    ✓ Starting...
+    ✓ Ready in 1416ms
 
 ## Getting Started  
 1. create an .env folder in the root of the frontend project folder
