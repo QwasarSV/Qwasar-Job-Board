@@ -1,0 +1,172 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: Qw@$4r00+!
+      MYSQL_DATABASE: quotes
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: Qwasar_2025!
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./models/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - kafka_net
+
+  scraper_orchestrator:
+    build:
+      context: .
+      dockerfile: scraper_orchestrator/Dockerfile
+    container_name: scraper_orchestrator
+    depends_on:
+      kafka1:
+        condition: service_healthy
+    volumes:
+      - ./scraper_orchestrator/publisher_service.log:/app/scraper_orchestrator/publisher_service.log
+    networks:
+      - kafka_net
+    command: sh -c "sleep 5 && python3 publisher_service.py"
+
+  consumer_service:
+    build:
+      context: .
+      dockerfile: consumer_service/Dockerfile
+    container_name: consumer_service
+    command: sh -c "sleep 30 && python3 consumer_service.py"
+    environment:
+      - DATABASE_URL=mysql://dev:Qwasar_2025!@mysql:3306/quotes
+    depends_on:
+      - kafka1
+      - mysql
+    volumes:
+      - ./consumer_service/consumer_errors.log:/app/consumer_service/consumer_errors.log
+      - ./consumer_service/consumer_db_errors.log:/app/consumer_service/consumer_db_errors.log
+    networks:
+      - kafka_net
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: frontend
+    ports:
+      - "6300:6300"
+    environment:
+      - DATABASE_URL=mysql://dev:Qwasar_2025!@mysql:3306/quotes
+    depends_on:
+      - mysql
+    networks:
+      - kafka_net
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.0.1
+    hostname: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_PORT: 2181
+      ZOO_SERVERS: server.1=zookeeper:2888:3888
+      ZOOKEEPER_CLIENT_PORT: 2181
+    volumes:
+      - zookeeper_data:/data
+      - zookeeper_datalog:/datalog
+    networks:
+      - kafka_net
+
+  kafka1:
+    image: confluentinc/cp-kafka:5.3.0
+    hostname: kafka1
+    ports:
+      - "9091:19091"
+    environment:
+      KAFKA_LISTENERS: LISTENER_DOCKER_INTERNAL://0.0.0.0:19091,LISTENER_DOCKER_EXTERNAL://0.0.0.0:9091
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka1:19091,LISTENER_DOCKER_EXTERNAL://localhost:9091
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_BROKER_ID: 1
+    volumes:
+      - ./data/kafka1/data:/var/lib/kafka/data
+    depends_on:
+      - zookeeper
+    networks:
+      - kafka_net
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "19091"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+  kafka2:
+    image: confluentinc/cp-kafka:5.3.0
+    hostname: kafka2
+    ports:
+      - "9092:19092"
+    environment:
+      KAFKA_LISTENERS: LISTENER_DOCKER_INTERNAL://0.0.0.0:19092,LISTENER_DOCKER_EXTERNAL://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka2:19092,LISTENER_DOCKER_EXTERNAL://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_BROKER_ID: 2
+    volumes:
+      - ./data/kafka2/data:/var/lib/kafka/data
+    depends_on:
+      - zookeeper
+    networks:
+      - kafka_net
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "19092"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+  kafka3:
+    image: confluentinc/cp-kafka:5.3.0
+    hostname: kafka3
+    ports:
+      - "9093:19093"
+    environment:
+      KAFKA_LISTENERS: LISTENER_DOCKER_INTERNAL://0.0.0.0:19093,LISTENER_DOCKER_EXTERNAL://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka3:19093,LISTENER_DOCKER_EXTERNAL://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_BROKER_ID: 3
+    volumes:
+      - ./data/kafka3/data:/var/lib/kafka/data
+    depends_on:
+      - zookeeper
+    networks:
+      - kafka_net
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "19093"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop
+    ports:
+      - "9000:9000"
+    environment:
+      KAFKA_BROKERCONNECT: "kafka1:19091"
+    depends_on:
+      - kafka1
+    networks:
+      - kafka_net
+
+volumes:
+  zookeeper_data:
+  zookeeper_datalog:
+  mysql_data:
+ 
+networks:
+  kafka_net:
+    driver: bridge
