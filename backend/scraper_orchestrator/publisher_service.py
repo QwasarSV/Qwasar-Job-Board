@@ -8,7 +8,7 @@ from scrapers import ibm_scraper
 
 
 class Publisher:
-    MAX_KAFKA_MSG_SIZE = 1000000  # 1 MB safe limit
+    MAX_KAFKA_MSG_SIZE = 1000000  # Set just below the 1 MB safe limit
 
     def __init__(self):
         self.csv_scrapers = [ibm_scraper]
@@ -56,9 +56,9 @@ class Publisher:
             )
 
     def run_scraper(self, scraper_module):
-        #TODO-implement threading.local() for thread local storage
+        #TODO-implement threading.local() for thread-specific local "global variable" storage
         # that will act as a buffer for potential left over chunks
-        # between functional calls for edge case
+        # between functional calls for "my_readline-style" edge case
          
         scraper_name = scraper_module.__name__
         logging.info(f"Running scraper: {scraper_name}")
