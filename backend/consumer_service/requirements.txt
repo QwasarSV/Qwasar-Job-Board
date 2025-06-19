@@ -1,0 +1,4 @@
+confluent-kafka
+SQLAlchemy
+mysqlclient
+schedule
