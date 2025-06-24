@@ -43,8 +43,11 @@ To run this website locally, follow these steps:
 
 4. Create sql_queue topic using KAFDROP: 
     a) Navigate to Open `localhost:9000` in your web browser.
+
     b) Click on the "+New" topic button. Within the Topic Creation Window name the topic sql_queue.
+    
     c) Change the number of partitions to 3
+    
     d) Click "create" and click "back" to main page.
 
 
