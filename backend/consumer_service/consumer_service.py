@@ -2,7 +2,10 @@ from models.models import Job
 from confluent_kafka import Consumer
 import time
 import json
+import uuid
 from sqlalchemy.exc import SQLAlchemyError
+import logging
+
 
 def run_consumer():
     session_factory = Job.build_engine()  # returns sessionmaker
@@ -13,7 +16,8 @@ def run_consumer():
         'client.id': 'sql-db-consumer-1',
         'enable.auto.commit': True,
         'session.timeout.ms': 6000,
-        'auto.offset.reset': 'earliest'
+        'auto.offset.reset': 'earliest',
+        'fetch.message.max.bytes': 1000000
     }
 
     db_consumer = Consumer(dbq_config)
@@ -36,35 +40,60 @@ def run_consumer():
 
             # Valid message
             value = msg.value().decode('utf-8')
-            data = json.loads(value)
+            try:
+                data = json.loads(value)
+            except json.JSONDecodeError as e:
+                print(f"❌ JSON decode error: {e}")
+                continue
 
-            if data.get("type") == "done":
+            # Check for control message
+            if isinstance(data, dict) and data.get("type") == "done":
                 print("✅ Done message received. Shutting down consumer.")
                 break
+
+            # Normalize to list of listings
+            if isinstance(data, dict):
+                listings = [data]  # single job dict
+            elif isinstance(data, list):
+                listings = data  # list of job dicts
             else:
-                try:
-                    # Use the session factory directly!
-                    with session_factory() as session:
+                print(f"⚠️ Unexpected payload type: {type(data)}")
+                continue
+
+            try:
+                with session_factory() as session:
+                    for listing in listings:
                         job = Job(
-                            text=data['text'],
-                            author=data['author'],
-                            tags=",".join(data['tags'])
+                            id=uuid.uuid4(),
+                            title=listing['title'],
+                            location=listing['location'],
+                            description=listing['description'],
+                            salary=listing['salary'],
+                            posted_date=listing['posted_date'],
+                            source=listing['source'],
+                            url=listing['url'],
+                            status=listing['status'],
+                            internal_id=listing['internal_id'],
+                            company_id=listing['company_id'],
+                            job_category_id=listing['job_category_id']
                         )
                         session.add(job)
-                        session.commit()
-                        print(f"✅ Consumed and inserted event: {data}")
-                
-                except SQLAlchemyError as e:
-                    error_message = f"{time.ctime()}: ❌ Database error: {e}\n"
-                    print(error_message)
-                    with open("consumer_db_errors.log", "a") as error_log:
-                        error_log.write(error_message)
+                    session.commit()
+                    logging.info(f"✅ Inserted {len(listings)} job(s)")
+
+            except SQLAlchemyError as e:
+                error_message = f"{time.ctime()}: ❌ Database error: {e}\n"
+                print(error_message)
+                with open("consumer_db_errors.log", "a") as error_log:
+                    error_log.write(error_message)
 
     except KeyboardInterrupt:
-        pass
+        print("🛑 Consumer interrupted manually.")
+
     finally:
         db_consumer.close()
-        print("Consumer shutdown successfully")
+        logging.info("Consumer shutdown successfully")
+
 
 if __name__ == "__main__":
     run_consumer()
