@@ -22,6 +22,9 @@ class Publisher:
         self.topic = "sql_queue"
 
     def split_json_message(self, json_data, max_size):
+        #if local global buffer not empty
+        #append to data ...> needs additional logic for
+        # overflow
         if isinstance(json_data, str):
             data = json.loads(json_data)
         else:
@@ -42,9 +45,9 @@ class Publisher:
                 current_chunk = [item]
 
         if current_chunk:
-            chunks.append(json.dumps(current_chunk))
-
-        return chunks
+            return chunks, current_chunk
+        
+        return tuple(chunks, [])
 
     def delivery_report(self, err, msg):
         if err is not None:
@@ -56,24 +59,30 @@ class Publisher:
             )
 
     def run_scraper(self, scraper_module):
-        #TODO-implement threading.local() for thread-specific local "global variable" storage
-        # that will act as a buffer for potential left over chunks
-        # between functional calls for "my_readline-style" edge case
          
         scraper_name = scraper_module.__name__
         logging.info(f"Running scraper: {scraper_name}")
 
         try:
             raw_results = scraper_module.scrape()
-            chunks = self.split_json_message(raw_results, self.MAX_KAFKA_MSG_SIZE)
+            chunks_tuple = self.split_json_message(raw_results, self.MAX_KAFKA_MSG_SIZE)
 
-            for chunk in chunks:
+            for chunk in chunks_tuple[0]:
                 self.producer.produce(
                     topic=self.topic,
                     value=chunk.encode("utf-8"),
                     callback=self.delivery_report
                 )
                 self.producer.poll(0)
+            
+            for chunk in chunks_tuple[1]:
+                self.producer.produce(
+                    topic=self.topic,
+                    value=chunk.encode("utf-8"),
+                    callback=self.delivery_report
+                )
+                self.producer.poll(0)
+
 
         except Exception as e:
             logging.exception(f"Error running scraper {scraper_name}: {e}")
