@@ -7,8 +7,8 @@ if [[ "$choice" != "y" ]]; then
   exit 1
 fi
 rm -rf ./data/kafka1/data ./data/kafka2/data ./data/kafka3/data
-: > scraper_orchestrator/scraper_errors.log
-: > scraper_orchestrator/publisher_service.log
-: > consumer_service/consumer_service.log
-: > consumer_service/consumer_db_errors.log
-: > consumer_service/consumer_errors.log
+echo "" > scraper_orchestrator/scraper_errors.txt
+echo "" > scraper_orchestrator/publisher_service.txt
+echo "" > consumer_service/consumer_service.txt
+echo "" > consumer_service/consumer_db_errors.txt
+echo "" > consumer_service/consumer_errors.txt

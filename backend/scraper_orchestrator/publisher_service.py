@@ -56,7 +56,7 @@ class Publisher:
             logging.info(
                 f"Produced event to topic {msg.topic()}: partition={msg.partition()}, value={decoded_value}"
             )
-            with open('publisher_service.log', 'a') as file:
+            with open('publisher_service.txt', 'a') as file:
                 file.write(f"Produced event to topic {msg.topic()}: partition={msg.partition()}, value={decoded_value}")
     def run_scraper(self, scraper_module):
         scraper_name = scraper_module.__name__

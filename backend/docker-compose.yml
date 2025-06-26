@@ -38,8 +38,8 @@ services:
       kafka1:
         condition: service_healthy
     volumes:
-      - ./scraper_orchestrator/publisher_service.log:/app/scraper_orchestrator/publisher_service.log
-      - ./scraper_orchestrator/scraper_errors.log:/app/scraper_orchestrator/scraper_errors.log
+      - ./scraper_orchestrator/publisher_service.txt:/app/scraper_orchestrator/publisher_service.txt
+      - ./scraper_orchestrator/scraper_errors.txt:/app/scraper_orchestrator/scraper_errors.txt
     networks:
       - kafka_net
     command: sh -c "sleep 5 && python3 publisher_service.py"
@@ -54,8 +54,8 @@ services:
       mysql:
         condition: service_healthy
     volumes:
-      - ./consumer_service/consumer_errors.log:/app/consumer_service/consumer_errors.log
-      - ./consumer_service/consumer_db_errors.log:/app/consumer_service/consumer_db_errors.log
+      - ./consumer_service/consumer_errors.txt:/app/consumer_service/consumer_errors.txt
+      - ./consumer_service/consumer_db_errors.txt:/app/consumer_service/consumer_db_errors.txt
     environment:
         - DATABASE_URL=${DATABASE_URL}
     networks:

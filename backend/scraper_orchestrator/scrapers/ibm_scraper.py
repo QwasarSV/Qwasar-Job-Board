@@ -24,7 +24,7 @@ import os
 
 # In[3]:
 logging.basicConfig(
-    filename='../scraper_orchestrator/publisher_service.log',
+    filename='../scraper_orchestrator/publisher_service.txt',
     level=logging.INFO,
     format='%(asctime)s | %(levelname)s | %(message)s'
 )

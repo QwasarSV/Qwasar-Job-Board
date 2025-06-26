@@ -34,7 +34,7 @@ def run_consumer():
             if msg.error():
                 error_message = f"{time.ctime()}: ❌ Consumer error: {msg.error()}\n"
                 print(error_message)
-                with open("consumer_errors.log", "a") as error_log:
+                with open("consumer_errors.txt", "a") as error_log:
                     error_log.write(error_message)
                 continue
 
@@ -84,7 +84,7 @@ def run_consumer():
             except SQLAlchemyError as e:
                 error_message = f"{time.ctime()}: ❌ Database error: {e}\n"
                 print(error_message)
-                with open("consumer_db_errors.log", "a") as error_log:
+                with open("consumer_db_errors.txt", "a") as error_log:
                     error_log.write(error_message)
 
     except KeyboardInterrupt:
