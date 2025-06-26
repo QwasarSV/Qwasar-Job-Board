@@ -1,7 +1,7 @@
 # Qwasar's Job Board
 
 Welcome to Qwasar's Job Board!
--This is a Job Search Platform that acts to aggregate job listings from numerous companies and government organizations using scraping and API calls. It is being built with Python, Flask, Kafka, MySQL, Selenium, Docker and other technologies.
+This is a Job Search Platform that acts to aggregate job listings from numerous companies and government organizations using scraping and API calls. It is being built with Python, Flask, Kafka, MySQL, Selenium, Docker and other technologies.
 
 
 ## Table of Contents
