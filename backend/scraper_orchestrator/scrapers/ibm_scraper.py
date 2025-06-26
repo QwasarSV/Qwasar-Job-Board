@@ -24,6 +24,7 @@ import os
 
 # In[3]:
 logging.basicConfig(
+    filename='../scraper_orchestrator/publisher_service.log',
     level=logging.INFO,
     format='%(asctime)s | %(levelname)s | %(message)s'
 )
@@ -156,7 +157,8 @@ def scrape():
     bad_posts_idx = [item for item in posts if isinstance(item, int)]
     good_postings_df = pd.DataFrame(good_posts)
     posting_details_df = pd.DataFrame(respos)
-
+    with open('../scraper_orchestrator/scraper_errors.log', 'a') as file:
+        file.write(f"The following pages (index referenced) were skipped: {bad_posts_idx}")
     logging.info(f"Scraping complete, the following pages (index referenced) were skipped: {bad_posts_idx}")
     # In[10]:
 

@@ -11,10 +11,10 @@ RUN apt-get update && \
         pkg-config && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copy and install your app as before...
+
 COPY consumer_service/ /app/consumer_service
 COPY models /app/consumer_service/models
-COPY consumer_service/requirements.txt .
+
 
 RUN pip install --no-cache-dir -r requirements.txt
 

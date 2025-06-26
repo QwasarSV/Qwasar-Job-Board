@@ -12,7 +12,7 @@ def run_consumer():
 
     dbq_config = {
         'bootstrap.servers': 'kafka1:19091',
-        'group.id': 'sql-group',
+        'group.id': f'sql-group-{uuid.uuid4()}', #will always treat as new group so newer messages make it through too
         'client.id': 'sql-db-consumer-1',
         'enable.auto.commit': True,
         'session.timeout.ms': 6000,
