@@ -3,7 +3,6 @@
     "jupyter.interactiveWindow.textEditor.executeSelection": true,
     "jupyter.askForKernelRestart": false,
     "jupyter.alwaysTrustNotebooks": true,
-    "jupyter.enableCellCodeLens": true,
     "jupyter.disableJupyterAutoStart": false,
     "jupyter.jupyterServerType": "local",
     "jupyter.allowUnauthorizedRemoteConnection": false,
@@ -53,10 +52,6 @@
     ],
     "jupyter.variableQueries": [],
     "jupyter.enableScrollingForCellOutputs": true,
-    
-    // Error Handling & Service Worker Fix
-    "jupyter.sendSelectionToInteractiveWindow": false,
-    "jupyter.magicCommandsAsComments": true,
     "jupyter.experimental.debugging": false,
     "jupyter.enableWebviewHtmlOutput": false,
     "workbench.webview.experimental.useIframes": false,
@@ -66,5 +61,7 @@
     "python.analysis.typeCheckingMode": "basic",
     "files.associations": {
         "*.ipynb": "jupyter-notebook"
-    }
+    },
+    "jupyter.interactiveWindow.textEditor.magicCommandsAsComments": true,
+    "jupyter.interactiveWindow.codeLens.enable": true
 }
