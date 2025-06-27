@@ -13,6 +13,12 @@ def index():
     session = scoped_session(session_factory)
     jobs = session.query(Job).all()
     return render_template('index.html', jobs=jobs)
+    
+@app.route('/job/<uuid>', methods=['GET'])
+def details(uuid):
+    session = scoped_session(session_factory)
+    job = session.query(Job).get(uuid)
+    return render_template('detail_page.html', job=job)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=6300)
