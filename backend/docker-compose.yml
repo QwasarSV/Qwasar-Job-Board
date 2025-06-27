@@ -1,0 +1,240 @@
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:8.0
+    restart: always
+    ports:
+      - '3307:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./models/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    environment:
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - kafka_net
+    healthcheck:
+      test:
+        - CMD
+        - mysqladmin
+        - ping
+        - '-h'
+        - localhost
+        - '-u'
+        - dev
+        - '-pQwasar_2025!'
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  scraper_orchestrator:
+    container_name: scraper_orchestrator
+    build:
+      context: .
+      dockerfile: scraper_orchestrator/Dockerfile
+    depends_on:
+      kafka1:
+        condition: service_healthy
+    volumes:
+      - ./scraper_orchestrator/publisher_service.log:/app/scraper_orchestrator/publisher_service.log
+      - ./scraper_orchestrator/scraper_errors.log:/app/scraper_orchestrator/scraper_errors.log
+    networks:
+      - kafka_net
+    command: sh -c "sleep 5 && python3 publisher_service.py"
+  consumer_service:
+    container_name: consumer_service
+    build:
+      context: .
+      dockerfile: consumer_service/Dockerfile
+    depends_on:
+      kafka1:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./consumer_service/consumer_errors.log:/app/consumer_service/consumer_errors.log
+      - ./consumer_service/consumer_db_errors.log:/app/consumer_service/consumer_db_errors.log
+    environment:
+        - DATABASE_URL=${DATABASE_URL}
+    networks:
+      - kafka_net
+    command: sh -c "sleep 30 && python3 consumer_service.py"
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - '6300:6300'
+    environment:
+        - DATABASE_URL=${DATABASE_URL}
+    networks:
+      - kafka_net
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.0.1
+    ports:
+      - '2181:2181'
+    volumes:
+      - zookeeper_data:/data
+      - zookeeper_datalog:/datalog
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_PORT: 2181
+      ZOO_SERVERS: server.1=zookeeper:2888:3888
+      ZOOKEEPER_CLIENT_PORT: 2181
+    networks:
+      - kafka_net
+    hostname: zookeeper
+  kafka1:
+    image: confluentinc/cp-kafka:5.3.0
+    depends_on:
+      - zookeeper
+    ports:
+      - '9091:19091'
+    volumes:
+      - ./data/kafka1/data:/var/lib/kafka/data
+    environment:
+      KAFKA_LISTENERS: LISTENER_DOCKER_INTERNAL://0.0.0.0:19091,LISTENER_DOCKER_EXTERNAL://0.0.0.0:9091
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka1:19091,LISTENER_DOCKER_EXTERNAL://localhost:9091
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'false'
+      KAFKA_OFFSETS_TOPIC_SEGMENT_BYTES: 10485760  # 10 MB
+      KAFKA_LOG_SEGMENT_BYTES: 134217728 # 128 MB
+      KAFKA_OFFSETS_RETENTION_MINUTES: 1440
+      KAFKA_LOG_RETENTION_HOURS: 6
+      KAFKA_OFFSETS_TOPIC_NUM_PARTITIONS: 3 #we can bump this up as we scale. I lowered it so we avoid bloat
+      KAFKA_COMPRESSION_TYPE: zstd #finally found it! we can use another type of compression if we need to
+      KAFKA_LOG_CLEANER_COMPRESSION_RATE: 0.5 #tunes how the built in log cleaner cleans
+      KAFKA_BROKER_ID: 1
+    networks:
+      - kafka_net
+    healthcheck:
+      test:
+        - CMD
+        - nc
+        - '-z'
+        - localhost
+        - '19091'
+      interval: 5s
+      timeout: 10s
+      retries: 5
+    hostname: kafka1
+  kafka2:
+    image: confluentinc/cp-kafka:5.3.0
+    depends_on:
+      - zookeeper
+    ports:
+      - '9092:19092'
+    volumes:
+      - ./data/kafka2/data:/var/lib/kafka/data
+    environment:
+      KAFKA_LISTENERS: LISTENER_DOCKER_INTERNAL://0.0.0.0:19092,LISTENER_DOCKER_EXTERNAL://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka2:19092,LISTENER_DOCKER_EXTERNAL://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'false'
+      KAFKA_OFFSETS_TOPIC_SEGMENT_BYTES: 10485760  # 10 MB
+      KAFKA_LOG_SEGMENT_BYTES: 134217728 # 128 MB
+      KAFKA_OFFSETS_RETENTION_MINUTES: 1440
+      KAFKA_LOG_RETENTION_HOURS: 6
+      KAFKA_OFFSETS_TOPIC_NUM_PARTITIONS: 3 #we can bump this up as we scale. I lowered it so we avoid bloat
+      KAFKA_COMPRESSION_TYPE: zstd #finally found it! we can use another type of compression if we need to
+      KAFKA_LOG_CLEANER_COMPRESSION_RATE: 0.5 #tunes how the built in log cleaner cleans
+      KAFKA_BROKER_ID: 2
+    networks:
+      - kafka_net
+    healthcheck:
+      test:
+        - CMD
+        - nc
+        - '-z'
+        - localhost
+        - '19092'
+      interval: 5s
+      timeout: 20s
+      retries: 5
+    hostname: kafka2
+  kafka3:
+    image: confluentinc/cp-kafka:5.3.0
+    depends_on:
+      - zookeeper
+    ports:
+      - '9093:19093'
+    volumes:
+      - ./data/kafka3/data:/var/lib/kafka/data
+    environment:
+      KAFKA_LISTENERS: LISTENER_DOCKER_INTERNAL://0.0.0.0:19093,LISTENER_DOCKER_EXTERNAL://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka3:19093,LISTENER_DOCKER_EXTERNAL://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'false'
+      KAFKA_OFFSETS_TOPIC_SEGMENT_BYTES: 10485760  # 10 MB
+      KAFKA_LOG_SEGMENT_BYTES: 134217728 # 128 MB
+      KAFKA_OFFSETS_RETENTION_MINUTES: 1440
+      KAFKA_LOG_RETENTION_HOURS: 6
+      KAFKA_OFFSETS_TOPIC_NUM_PARTITIONS: 3 #we can bump this up as we scale. I lowered it so we avoid bloat
+      KAFKA_COMPRESSION_TYPE: zstd #finally found it! we can use another type of compression if we need to
+      KAFKA_LOG_CLEANER_COMPRESSION_RATE: 0.5 #tunes how the built in log cleaner cleans
+      KAFKA_BROKER_ID: 3
+    networks:
+      - kafka_net
+    healthcheck:
+      test:
+        - CMD
+        - nc
+        - '-z'
+        - localhost
+        - '19093'
+      interval: 5s
+      timeout: 10s
+      retries: 5
+    hostname: kafka3
+  kafdrop:
+    image: obsidiandynamics/kafdrop
+    depends_on:
+      - kafka1
+      - kafka2
+      - kafka3
+    ports:
+      - 127.0.0.1:9000:9000
+    environment:
+      KAFKA_BROKERCONNECT: kafka1:19091
+    networks:
+      - kafka_net
+  kafka-init:
+    container_name: kafka-init
+    image: confluentinc/cp-kafka:5.3.0
+    depends_on:
+      kafka1:
+        condition: service_healthy
+    networks:
+      - kafka_net
+    command: |
+      ' echo "⏳ Waiting for Kafka to be ready..." && sleep 10 && echo "🚀 Creating topic sql_queue..." && kafka-topics --zookeeper zookeeper:2181 \
+        --create --if-not-exists \
+        --replication-factor 3 --partitions 3 --topic sql_queue &&
+        echo "✅ Topic creation done."'
+    entrypoint:
+      - /bin/sh
+      - '-c'
+
+volumes:
+  zookeeper_data: null
+  zookeeper_datalog: null
+  mysql_data: null
+
+networks:
+  kafka_net:
+    driver: bridge
