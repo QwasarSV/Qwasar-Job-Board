@@ -17,15 +17,7 @@ services:
     networks:
       - kafka_net
     healthcheck:
-      test:
-        - CMD
-        - mysqladmin
-        - ping
-        - '-h'
-        - localhost
-        - '-u'
-        - dev
-        - '-pQwasar_2025!'
+      test: CMD mysqladmin ping -h localhost -u dev -p${MY_SQL_DATABASE}
       interval: 10s
       timeout: 5s
       retries: 5
