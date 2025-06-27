@@ -1,6 +1,0 @@
-beautifulsoup4
-chromedriver
-confluent-kafka
-schedule
-selenium
-pandas
