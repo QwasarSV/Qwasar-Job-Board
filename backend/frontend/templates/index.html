@@ -29,18 +29,22 @@
         <thead>
             <tr>
               <th>
+                UUID
+              </th>
+              <th>
                 Title
               </th>
               <th>
-                Apply Link
+                
               </th>
             </tr>
         </thead>
         <tbody>
           {% for job in jobs %}
             <tr>
+                <td>{{ job.id }}</td>
                 <td>{{ job.title }}</td> 
-                <td><a href={{ job.url }}>{{ job.url }}</a> </td>
+                <td><a href="{{ url_for('details', uuid=job.id) }}">Detail Page</a></td>
             </tr>
         {% endfor %}
         </tbody>
