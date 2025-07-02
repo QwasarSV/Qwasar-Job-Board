@@ -13,7 +13,7 @@
 /* DARK MODE -> IS DEFAULT */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #070c14;  /* #070c14 --  dark blue/black  #0f172a -> dark grey/blue*/ 
+    --background: #070c14; 
     --foreground: #f8fafc;        
 
     --color-background: var(--background);
