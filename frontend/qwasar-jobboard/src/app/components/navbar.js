@@ -21,7 +21,7 @@ export default function NavBar() {
                         <div style={{ position: "relative" }}>
                             <ul className="flex space-x-6 items-center">
                                 <li>
-                                    <a href="#" className="inline-flex items-center gap-1 hover:bg-gray-200 dark:hover:bg-[var(--input)] rounded px-2 py-1 transition-colors focus:outline-none">Home</a>
+                                    <a href="#" className="inline-flex items-center gap-1 hover:bg-gray-200 dark:hover:bg-[var(--secondary)] rounded px-2 py-1 transition-colors focus:outline-none">Home</a>
                                 </li>
 
                                 {/* DOCUMENTATION MENU ITEM*/}
