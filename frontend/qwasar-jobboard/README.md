@@ -16,11 +16,12 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
     ✓ Ready in 1416ms
 
 ## Getting Started  
-1. create an .env folder in the root of the frontend project folder
+1. create an .env file in the root of the frontend project folder
 ```
-example .env 
-
-NEXT_PUBLIC_API_URL=put_local_host_api_url_here 
+example .env below w/ contents
+-----
+NEXT_PUBLIC_API_URL=put_local_host_api_url_here
+-----
 ```
 
 First, run the development server:  
