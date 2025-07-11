@@ -53,6 +53,19 @@ body {
 
 }
 
+.text-muted-foreground {
+  color: var(--muted-foreground);
+}
+
+.card-color {
+  background: var(--background);
+  border: 1px solid var(--border);
+}
+
+.blue-text {
+  color: var(--blue-text);
+}
+
 /*
 @theme inline {
   --color-background: var(--background);
