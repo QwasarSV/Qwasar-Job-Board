@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 export default function JobList({ filter }) {
   const [jobs, setJobs] = useState([]);
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl = process.env.DEMO_CONTROLLER_API_URL;
 
   // fetches our data from "database"
   useEffect(() => {
