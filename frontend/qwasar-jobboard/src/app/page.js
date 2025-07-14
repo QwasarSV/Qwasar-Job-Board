@@ -28,7 +28,36 @@ export default function HomePage() {
         </div>
         
         {/* Job card positioned right below */}
-        <div className='flex-1 flex flex-col items-center p-4'>
+        <main className="flex-1 py-8">
+          <div className="w-[90%] max-w-auto mx-auto space-y-8">
+            {/* {jobs.map(job => (
+              <JobCard key={job.id} job={job} />
+            ))} */}
+            <JobCard 
+              job={{ 
+                title: "Job Title", 
+                company: "Company Name", 
+                location: "Fountain Valley, CA", 
+                salary: "$130,000 - $170,000",
+                description: "Software job blahblahblah aosikdjsaldkLOAUApodjsalkfdhsa;flksjfla;sfjsoijefisadkfnkjzdghzsufhid sfjsoijefisadkfnkjzdghzsufhid sfjsoijefisadkfnkjzdghzsufhid sfjsoijefisadkfnkjzdghzsufhid",
+                requirements: ["React", "TypeScript","JavaSCript","Java","C","Agile methodology","Scrum","Software development cycle","bachelor's degree in computer science or related OR 1-3 years of relevant work experience with no degree"],
+                postedDate: "1/1/2024",
+                applyLink: "https://example.com/apply"
+              }} 
+            />
+          </div>
+          
+          {/* Pagination */}
+          {/* <div className="mt-12 flex justify-center gap-4">
+            <button className="px-6 py-2 border rounded-md hover:bg-gray-100">
+              Previous
+            </button>
+            <button className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+              Next
+            </button>
+          </div> */}
+        </main>
+        {/* <div className='flex-1 flex flex-col items-center p-4'>
           <JobCard 
             job={{ 
               title: "Job Title", 
@@ -41,7 +70,7 @@ export default function HomePage() {
               link: "https://example.com/apply"
             }} 
           />
-        </div>
+        </div> */}
       </div>
       
     </>

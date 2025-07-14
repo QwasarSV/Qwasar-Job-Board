@@ -66,6 +66,22 @@ body {
   color: var(--blue-text);
 }
 
+.apply-button {
+  /* background: var(--blue-hover); */
+  background: #1d4ed8;
+  color: var(--primary);
+  height: 40px;
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%; */
+}
+
+.apply-button:hover {
+  /* background: var(--hover-foreground); */
+  background: #1e40af;
+}
+
 /*
 @theme inline {
   --color-background: var(--background);
