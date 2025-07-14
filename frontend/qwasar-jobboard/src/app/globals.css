@@ -69,7 +69,7 @@ body {
 .apply-button {
   /* background: var(--blue-hover); */
   background: #1d4ed8;
-  color: var(--primary);
+  color: var(--card);
   height: 40px;
   /* display: flex;
   align-items: center;
