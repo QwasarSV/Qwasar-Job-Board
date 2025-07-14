@@ -134,3 +134,9 @@ dmypy.json
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# NodeJS Directories
+node_modules/
+
+# NextJS Directories
+.next

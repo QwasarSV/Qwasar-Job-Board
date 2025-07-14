@@ -13,46 +13,76 @@ const JobCard = ({ job }) => {
   };
 
   const formatSalary = (salaryString) => {
-    // First clean the string by removing commas and normalizing separators
+    // Remove commas and normalize separators
     const cleaned = salaryString
-      .replace(/,/g, '') // Remove commas
-      .replace(/\s*-\s*/g, ' - ') // Normalize hyphens
-      .replace(/\s*\+\s*/g, '+') // Normalize plus signs
+      .replace(/,/g, '')
+      .replace(/\s*-\s*/g, ' - ')
+      .replace(/\s*\+\s*/g, '+')
     
-    // Extract all numbers (including ranges and bonuses)
+    // Extract all numbers
     const numbers = cleaned.match(/\d+/g)?.map(Number) || [];
     
-    // Format each number and maintain original structure
+    // Format each number
     return cleaned.replace(/\d+/g, (match) => {
       const num = parseInt(match, 10);
       if (num >= 1000000) return `${(num/1000000).toFixed(1)}M`;
       if (num >= 1000) return `${(num/1000).toFixed(0)}k`;
-      return match; // Return original if not in shortening range
+      return match;
     });
   };
 
+  const CompanyIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/>
+      <path d="M6 12H4a2 2 0 0 0-2 2v8h20v-8a2 2 0 0 0-2-2h-2"/>
+      <path d="M10 6h4"/>
+      <path d="M10 10h4"/>
+      <path d="M10 14h4"/>
+      <path d="M10 18h4"/>
+    </svg>
+  );
+  
+  const LocationIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/>
+      <circle cx="12" cy="10" r="3"/>
+    </svg>
+  );
+  
+  const CalendarIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12,6 12,12 16,14"/>
+    </svg>
+  );
+
   return (
-    <div className="card-color rounded-lg p-6 shadow-sm transition-all hover:shadow-md">
+    <div className="card-color rounded-lg p-6 shadow-sm transition-all hover:shadow-md max-w-auto mx-auto">
       {/* Job Title and Meta Information */}
       <div>
-        <h3 className="text-xl font-semibold text-primary mb-2">{job.title}</h3> {/* Increased to text-xl */}
+        <h3 className="text-xl font-semibold text-primary mb-2">{job.title}</h3>
         
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-m text-muted-foreground">
           {/* Company */}
-          <span>{job.company}</span>
+          <div className="flex items-center gap-2">
+            <CompanyIcon />
+            <span>{job.company}</span>
+          </div>
           
           {/* Location */}
           {job.location && (
-            <span className="flex items-center">
-              {job.location}
-            </span>
+            <div className="flex items-center gap-2">
+              <LocationIcon />
+              <span>{job.location}</span>
+            </div>
           )}
           
           {/* Posted Date */}
           {job.postedDate && (
-            <span className="flex items-center">
-              Posted {job.postedDate}
-            </span>
+            <div className="flex items-center gap-2">
+              <CalendarIcon />
+              <span>Posted {job.postedDate}</span>
+            </div>
           )}
         </div>
       </div>
@@ -63,31 +93,6 @@ const JobCard = ({ job }) => {
           {formatSalary(job.salary)}
         </div>
       )}
-      {/* Job Title and Company */}
-      {/* <div>
-        <h3 className="text-lg font-semibold text-primary">{job.title}</h3>
-        <p className="text-muted-foreground">{job.company}</p>
-      </div> */}
-      
-      {/* Location and Salary */}
-      {/* <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
-        <span>{job.location}</span>
-        {job.salary && <span>• {job.salary}</span>}
-      </div> */}
-
-      {/* Job Type and Posted Date */}
-      {/* <div className="mt-4 flex flex-wrap gap-2">
-        {job.type && (
-          <span className="px-2 py-1 text-xs rounded bg-secondary text-secondary-foreground">
-            {job.type}
-          </span>
-        )}
-        {job.postedDate && (
-          <span className="text-xs text-muted-foreground self-center">
-            Posted {job.postedDate}
-          </span>
-        )}
-      </div> */}
 
       {/* Description with Toggle */}
       <div className="mt-4">
