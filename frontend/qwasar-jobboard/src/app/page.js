@@ -14,9 +14,6 @@ export default function HomePage() {
   return (
     <>
       <NavBar />
-      {/* <div className='searchBar_wrapper'>
-        <SearchBar setSearchInput={setSearchInput} />
-      </div> */}
       <div className='joblisting_wrapper'>
         <JobListing filter={searchInput} />
       </div>
@@ -24,6 +21,9 @@ export default function HomePage() {
         {/* Placeholder for future search bar*/}
         <div className="h-[35vh] flex items-center justify-center">
           {/* Search bar will go here later */}
+          {/* <div className='searchBar_wrapper'>
+            <SearchBar setSearchInput={setSearchInput} />
+          </div> */}
           <div className="text-muted-foreground">Search bar placeholder</div>
         </div>
         
