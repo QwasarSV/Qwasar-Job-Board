@@ -27,7 +27,7 @@ export default function HomePage() {
           <div className="text-muted-foreground">Search bar placeholder</div>
         </div>
         
-        {/* Job card positioned right below */}
+        {/* Job card */}
         <main className="flex-1 py-8">
           <div className="w-[90%] max-w-auto mx-auto space-y-8">
             {/* {jobs.map(job => (
@@ -48,14 +48,17 @@ export default function HomePage() {
           </div>
           
           {/* Pagination */}
-          {/* <div className="mt-12 flex justify-center gap-4">
-            <button className="px-6 py-2 border rounded-md hover:bg-gray-100">
+          <div className="mt-12 flex justify-center gap-4">
+            <button className="px-4 py-2 page-button rounded-md text-sm">
               Previous
             </button>
-            <button className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+            <button className="px-4 py-2 page-button rounded-md text-sm">
+              1
+            </button>
+            <button className="px-4 py-2 page-button rounded-md text-sm">
               Next
             </button>
-          </div> */}
+          </div>
         </main>
         {/* <div className='flex-1 flex flex-col items-center p-4'>
           <JobCard 

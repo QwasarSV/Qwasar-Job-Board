@@ -67,7 +67,6 @@ body {
 }
 
 .apply-button {
-  /* background: var(--blue-hover); */
   background: #1d4ed8;
   color: var(--card);
   height: 40px;
@@ -78,8 +77,24 @@ body {
 }
 
 .apply-button:hover {
-  /* background: var(--hover-foreground); */
   background: #1e40af;
+}
+
+.page-button {
+  color: var(--accent-foreground);
+  border: 1px solid var(--accent);
+  /* background: var(--primary-foreground); */
+}
+
+.page-button .active {
+  color: var(--background);
+  background: var(--accent-foreground);
+  border-color: var(--accent-foreground);
+}
+
+.page-button:hover:not(.active) {
+  background: var(--accent);
+  /* color: var(--primary-foreground); */
 }
 
 /*
