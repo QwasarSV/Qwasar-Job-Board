@@ -38,6 +38,7 @@ export default function HomePage() {
                 title: "Job Title", 
                 company: "Company Name", 
                 location: "Fountain Valley, CA", 
+                experienceLevel: "Senior Level",
                 salary: "$130,000 - $170,000",
                 description: "Software job blahblahblah aosikdjsaldkLOAUApodjsalkfdhsa;flksjfla;sfjsoijefisadkfnkjzdghzsufhid sfjsoijefisadkfnkjzdghzsufhid sfjsoijefisadkfnkjzdghzsufhid sfjsoijefisadkfnkjzdghzsufhid",
                 requirements: ["React", "TypeScript","JavaSCript","Java","C","Agile methodology","Scrum","Software development cycle","bachelor's degree in computer science or related OR 1-3 years of relevant work experience with no degree"],

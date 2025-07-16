@@ -97,6 +97,10 @@ body {
   /* color: var(--primary-foreground); */
 }
 
+.experience-level-stlye {
+  color: var(--accent-foreground);
+}
+
 /*
 @theme inline {
   --color-background: var(--background);

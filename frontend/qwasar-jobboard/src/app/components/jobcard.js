@@ -87,12 +87,21 @@ const JobCard = ({ job }) => {
         </div>
       </div>
 
-      {/* Salary*/}
-      {job.salary && (
-        <div className="mt-2 text-xs inline-block px-3 py-1 rounded-full card-color blue-text font-semibold">
-          {formatSalary(job.salary)}
-        </div>
-      )}
+      <div className="mt-2 flex flex-wrap gap-2">
+        {/* Experience Level */}
+        {job.experienceLevel && (
+          <div className="text-xs inline-block px-3 py-1 rounded-full experience-level-style card-color font-semibold">
+            {job.experienceLevel}
+          </div>
+        )}
+
+        {/* Salary*/}
+        {job.salary && (
+          <div className="text-xs inline-block px-3 py-1 rounded-full card-color blue-text font-semibold">
+            {formatSalary(job.salary)}
+          </div>
+        )}
+      </div>
 
       {/* Description with Toggle */}
       <div className="mt-4">
@@ -126,7 +135,6 @@ const JobCard = ({ job }) => {
                 setIsDescriptionOpen(true);
               }}
             >
-              {/* (Show more) */}
             </span>
           )}
         </div>
