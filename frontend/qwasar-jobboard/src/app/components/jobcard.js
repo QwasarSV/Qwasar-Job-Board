@@ -78,10 +78,10 @@ const JobCard = ({ job }) => {
           )}
           
           {/* Posted Date */}
-          {job.postedDate && (
+          {job.posted_date && (
             <div className="flex items-center gap-2">
               <CalendarIcon />
-              <span>Posted {job.postedDate}</span>
+              <span>Posted {job.posted_date}</span>
             </div>
           )}
         </div>
@@ -196,10 +196,10 @@ const JobCard = ({ job }) => {
       )}
 
       {/* Apply Button */}
-      {job.applyLink && (
+      {job.url && (
         <div className="mt-6">
           <a 
-            href={job.applyLink} 
+            href={job.url} 
             target="_blank" 
             rel="noopener noreferrer"
             className="w-full flex items-center justify-center h-10 rounded-md apply-button text-sm gap-2"
