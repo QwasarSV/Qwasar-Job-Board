@@ -12,9 +12,9 @@
   "dependencies": {
     "flowbite": "^3.1.2",
     "flowbite-react": "^0.11.8",
-    "next": "15.3.3",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "next": "^15.3.5",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

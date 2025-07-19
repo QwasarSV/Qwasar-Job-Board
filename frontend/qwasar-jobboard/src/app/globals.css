@@ -53,6 +53,54 @@ body {
 
 }
 
+.text-muted-foreground {
+  color: var(--muted-foreground);
+}
+
+.card-color {
+  background: var(--background);
+  border: 1px solid var(--border);
+}
+
+.blue-text {
+  color: var(--blue-text);
+}
+
+.apply-button {
+  background: #1d4ed8;
+  color: var(--card);
+  height: 40px;
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%; */
+}
+
+.apply-button:hover {
+  background: #1e40af;
+}
+
+.page-button {
+  color: var(--accent-foreground);
+  border: 1px solid var(--accent);
+  /* background: var(--primary-foreground); */
+}
+
+.page-button .active {
+  color: var(--background);
+  background: var(--accent-foreground);
+  border-color: var(--accent-foreground);
+}
+
+.page-button:hover:not(.active) {
+  background: var(--accent);
+  /* color: var(--primary-foreground); */
+}
+
+.experience-level-stlye {
+  color: var(--accent-foreground);
+}
+
 /*
 @theme inline {
   --color-background: var(--background);
