@@ -8,7 +8,9 @@ export default function HomePage() {
   const [searchInput, setSearchInput] = useState('')
   return (
     <>
+    <div todo='jobsjsonborder'>
       <JobsJson/>
+    </div>
     </>
   );
 }

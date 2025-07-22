@@ -1,4 +1,5 @@
 'use client';
+import { TextInput } from 'flowbite-react'; //  havent used yet - took from everyone's imports - warren
 import React, { useState, Text } from 'react';
 
 //  sort jobs depending on filter choice(s) by user
@@ -7,6 +8,9 @@ export default function JobsJson() {
     //  ------------
     //  sample json for testing
     let jobsJson = "./local_docker_testing/local_docker_results.json"
+
+    //  maybe use react setState?
+    let jobSearchResults = {}
 
     //  return jobs posted since specified date
     function jobDatePosted(jobs, chosenDate) {
@@ -17,6 +21,7 @@ export default function JobsJson() {
     }
 
     //  general job experience levels
+    //  any
     //  0 - 1 year
     //  1 - 3 years
     //  3 - 5 years
@@ -166,12 +171,23 @@ export default function JobsJson() {
         );
     }
 
+    //  not sure about naming
+    function SearchBarFilter() {
+        return (
+            <>
+                <input
+                    type='text' 
+                    style={{ backgroundColor: 'gray', color: 'black' }}
+                    placeholder='Search job titles, keywords, or companies...'>
+                    </input>
+            </>
+        );
+    }
+
     return (
     <>
-        <p
-            style={{ backgroundColor: 'gray', color: 'black' }}>
-            Searchbar
-        </p>
+        <br></br>
+        <SearchBarFilter></SearchBarFilter>
         <div>
 
         </div>
