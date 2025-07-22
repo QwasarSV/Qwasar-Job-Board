@@ -12,6 +12,9 @@ export default function JobsJson() {
     //  maybe use react setState?
     let jobSearchResults = {}
 
+    //  search result flag - track if user searched for job(s)
+    let searchResultFlag = false
+
     //  return jobs posted since specified date
     function jobDatePosted(jobs, chosenDate) {
         //  resultArray = []
@@ -205,6 +208,39 @@ export default function JobsJson() {
         );
     }
 
+    //  job(s) found from search
+    function SearchResultSuccess() {
+        //  display results from search
+    }
+
+    //  no jobs found from search
+    function SearchResultFail() {
+        //  display 0 results found from search
+    }
+
+    //  default message before user searches
+    function SearchResultDefault() {
+        return (
+            <div>
+                <p>Start your job search</p>
+                Use the search filters above to find your perfect job opportunity
+            </div>
+        );
+    }
+
+    //  TODO need to update
+    function SearchResultsDisplay(jobSearchResults){
+        // if (jobSearchResults.length() == 0) {
+        //     //  if none, display default message
+        //     SearchResultNoJobs
+        // }
+        // else if{
+        //     //  lists how many jobs found
+        //         //  if 1 or more, display jobs in card form, sorted?
+        //     //  top down w/ scroller?
+        // }
+    }
+
     return (
     <>
         <br></br>
@@ -213,7 +249,7 @@ export default function JobsJson() {
 
         </div>
         <p></p>
-        <div>
+        <div todo="filter_section">
             <ExperienceFilter></ExperienceFilter>
             <FilterResetButton></FilterResetButton>
             <br></br>
@@ -223,6 +259,11 @@ export default function JobsJson() {
             <CompanyFilter></CompanyFilter>
             <FilterResetButton></FilterResetButton>
         </div>
+        <div todo="search_results">
+            {/* use searchresultflag here to toggle displaysq */}
+        </div>
+        <p></p>
+        
     </>
         //  -----design notes
         //  searchbar - textbox
