@@ -103,7 +103,7 @@ export default function JobsJson() {
                 <option 
                 value="entry" 
                 style={{ backgroundColor: 'gray', color: 'black' }}>
-                    Entry</option>
+                    Entry Level</option>
                 <option 
                 value="mid" 
                 style={{ backgroundColor: 'gray', color: 'black' }}>
@@ -111,7 +111,11 @@ export default function JobsJson() {
                 <option 
                 value="senior" 
                 style={{ backgroundColor: 'gray', color: 'black' }}>
-                    Senior</option>
+                    Senior Level</option>
+                <option 
+                value="lead_principal" 
+                style={{ backgroundColor: 'gray', color: 'black' }}>
+                    Lead/Principal</option>
             </select>
             </>
         );
@@ -131,11 +135,28 @@ export default function JobsJson() {
                 style={{ backgroundColor: 'gray', color: 'black' }}>
                     Date Posted</text>
             <p></p>
-            <input 
-                type='text' 
-                style={{ backgroundColor: 'gray', color: 'black' }}
-                placeholder='Date Posted'>
-                </input>
+            <select>
+                <option 
+                value="any_time" 
+                style={{ backgroundColor: 'gray', color: 'black' }}>
+                    Any Time</option>
+                <option 
+                value="last_24_h" 
+                style={{ backgroundColor: 'gray', color: 'black' }}>
+                    Last 24 Hours</option>
+                <option 
+                value="last_3_days" 
+                style={{ backgroundColor: 'gray', color: 'black' }}>
+                    Last 3 Days</option>
+                <option 
+                value="last_week" 
+                style={{ backgroundColor: 'gray', color: 'black' }}>
+                    Last week</option>
+                <option 
+                value="last_month" 
+                style={{ backgroundColor: 'gray', color: 'black' }}>
+                    Last Month</option>
+            </select>
             </>
         );
     }
